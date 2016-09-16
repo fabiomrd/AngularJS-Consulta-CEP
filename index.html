@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8"/>
+<title>Consulta CEP</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+   	<link rel="stylesheet" type="text/css" href="teste.css">
+
+</head>
+<body>
+
+<div class="painel" ng-controller="userCtrl">
+<h3>Teste de Chamada AngularJS - Consulta de CEP </h3>
+
+<div class="tela">
+<div align="center">
+<label>CEP</label>
+<input id="cep" ng-model="cep"></input>
+<button id="btBuscar" ng-click="buscaCEP()">Buscar</button>
+<button id="btLimpar">Limpar</button>
+
+<div >
+
+<table>
+ <tr>
+ 	<td>Logradouro</td>
+ 	<td><input type="text" value="{{ myData.logradouro}}" /></td>
+ </tr>
+ <tr>		
+ 	<td>Complemento</td>
+ 	<td><input type="text" value="{{ myData.complemento}}" /></td>
+ </tr>
+ <tr>
+ 	<td>Bairro</td>
+ 	<td><input type="text" value="{{ myData.bairro}}" /></td>
+ </tr>
+<tr>
+	<td>UF</td>
+	<td><input type="text" value="{{ myData.uf}}" /></td>
+</tr>
+ <tr>
+ <td>Cidade</td>
+ <td><input type="text" value="{{ myData.localidade}}" /></td>
+</tr>
+</table> 	
+</div>
+
+<script type="text/javascript">
+var app = angular.module('myApp', []);
+
+	app.controller('userCtrl', function($scope, $http) {
+
+	$scope.buscaCEP = function (){
+	
+		$http.get('https://viacep.com.br/ws/' + $scope.cep + '/json/').then(function (response) {
+		  $scope.myData = response.data;
+		  }, function(response) {
+				//Second function handles error
+				alert("Something went wrong");
+		});
+	
+	}
+	
+  
+});
+      
+</script>
+
+</body>
+</html>
