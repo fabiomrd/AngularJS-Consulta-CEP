@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <title>Consulta CEP</title>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"> 
     </script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -15,7 +17,7 @@
     <script src="https://rawgit.com/digitalBush/jquery.maskedinput/1.4.1/dist/jquery.maskedinput.min.js"></script>
 </head>
 
-<body>
+<body  ng-controller="cepCtrl">
 
 <div class="container col-sm-3">
 </div>
@@ -70,21 +72,22 @@
 
 
 <script type="text/javascript">
-$(document).ready(function(){
-  $("#cep").mask("99.999-999");
-})
-</script>
-
-<script type="text/javascript">
 var app = angular.module('myApp', []);
 
-	app.controller('userCtrl', function($scope, $http) {
+	app.controller('cepCtrl', function($scope, $http) {
+
+    $("#cep").mask("99.999-999");
+
+       $("#cep").bind('keypress', function(e) {
+    if(e.which == 13) {
+      $scope.buscaCEP();
+    }
+    });
 
 	$scope.buscaCEP = function (){
 
-
     var cepvalue = $scope.cep;
-    cepvalue.replace(/\./g, "");
+    cepvalue = cepvalue.replace(/\./g, "");
     cepvalue = cepvalue.replace(/\-/g, "");
 	
 		$http.get('https://viacep.com.br/ws/' + cepvalue + '/json/').then(function (response) {
@@ -95,6 +98,7 @@ var app = angular.module('myApp', []);
 		});
 	
 	}
+
 	
   
 });
