@@ -4,46 +4,76 @@
 <meta charset="utf-8"/>
 <title>Consulta CEP</title>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-   	<link rel="stylesheet" type="text/css" href="teste.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"> 
+    </script>
+
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://rawgit.com/digitalBush/jquery.maskedinput/1.4.1/dist/jquery.maskedinput.min.js"></script>
 </head>
+
 <body>
 
-<div class="painel" ng-controller="userCtrl">
-<h3>Teste de Chamada AngularJS - Consulta de CEP </h3>
-
-<div class="tela">
-<div align="center">
-<label>CEP</label>
-<input id="cep" ng-model="cep"></input>
-<button id="btBuscar" ng-click="buscaCEP()">Buscar</button>
-<button id="btLimpar">Limpar</button>
-
-<div >
-
-<table>
- <tr>
- 	<td>Logradouro</td>
- 	<td><input type="text" value="{{ myData.logradouro}}" /></td>
- </tr>
- <tr>		
- 	<td>Complemento</td>
- 	<td><input type="text" value="{{ myData.complemento}}" /></td>
- </tr>
- <tr>
- 	<td>Bairro</td>
- 	<td><input type="text" value="{{ myData.bairro}}" /></td>
- </tr>
-<tr>
-	<td>UF</td>
-	<td><input type="text" value="{{ myData.uf}}" /></td>
-</tr>
- <tr>
- <td>Cidade</td>
- <td><input type="text" value="{{ myData.localidade}}" /></td>
-</tr>
-</table> 	
+<div class="container col-sm-3">
 </div>
+
+<div class="container col-sm-6">
+
+  <div class="page-header">
+   <h3 align="center">Teste de chamada jQuery Ajax</h3>
+    <h3 align="center">Consulta de CEP </h3>
+  </div>
+
+
+
+<div>
+<div class="input-group">
+  <span class="input-group-addon">CEP</span>
+  <input type="text" id="cep" ng-model="cep" class="form-control" placeholder="Digite o CEP aqui">
+</div>
+ <button id="btBuscar" ng-click="buscaCEP()" class="btn btn-default btn-block btn-primary">Buscar </button>
+</div>
+
+<br>
+<div class="input-group col-sm-12">
+  <span class="input-group-addon">Logradouro</span>
+  <input type="text" id="logradouro" value="{{ myData.logradouro}}"  disabled class="form-control" >
+</div>
+
+<div class="input-group col-sm-12">
+  <span class="input-group-addon">Complemento</span>
+  <input type="text" id="complemento" value="{{ myData.complemento}}"  disabled class="form-control" >
+</div>
+
+<div class="input-group col-sm-12">
+  <span class="input-group-addon">Bairro</span>
+  <input type="text" id="bairro" value="{{ myData.bairro}}" disabled class="form-control" >
+</div>
+
+
+<div class="input-group col-sm-12">
+  <span class="input-group-addon">UF</span>
+  <input type="text" id="uf" value="{{ myData.uf}}" disabled class="form-control" >
+</div>
+
+
+<div class="input-group col-sm-12">
+  <span class="input-group-addon">Cidade</span>
+  <input type="text" id="cidade" value="{{ myData.localidade}}" disabled class="form-control" >
+</div>
+
+<div class="container col-sm-3">
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#cep").mask("99.999-999");
+})
+</script>
 
 <script type="text/javascript">
 var app = angular.module('myApp', []);
@@ -51,8 +81,14 @@ var app = angular.module('myApp', []);
 	app.controller('userCtrl', function($scope, $http) {
 
 	$scope.buscaCEP = function (){
+
+debugger;
+
+    var cepvalue = $scope.cep;
+    cepvalue.replace(/\./g, "");
+    cepvalue = cepvalue.replace(/\-/g, "");
 	
-		$http.get('https://viacep.com.br/ws/' + $scope.cep + '/json/').then(function (response) {
+		$http.get('https://viacep.com.br/ws/' + cepvalue + '/json/').then(function (response) {
 		  $scope.myData = response.data;
 		  }, function(response) {
 				//Second function handles error
